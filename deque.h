@@ -258,8 +258,12 @@ namespace coen79_lab8
                 // Copy the elements, and set "front_ptr" and "back_ptr" if appropriate
                 for (size_type block_item_index = 0; block_item_index < block_size; ++block_item_index)
                 {
-                    *block_pointers[bp_array_index] = *source.block_pointers[bp_array_index];
-                    // STUDENT WORK...
+                    if (source.block_pointers[bp_array_index] + block_item_index == source.front_ptr)
+                        front_ptr = block_pointers[bp_array_index] + block_item_index;
+                    else if(source.block_pointers[bp_array_index] + block_item_index == source.back_ptr)
+                        back_ptr = block_pointers[bp_array_index] + block_item_index;
+                    
+                    block_pointers[bp_array_index][block_item_index] = source.block_pointers[bp_array_index][block_item_index];
                 }
             }
         }
