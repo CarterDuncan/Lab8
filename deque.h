@@ -277,16 +277,14 @@ namespace coen79_lab8
     template <class Item>
     void deque<Item>::clear () {
         
-        // Clear the data blocks
-        // STUDENT WORK...
-        
-        
+        for(size_t i =0;i<BLOCKPOINTER_ARRAY_SIZE;i++){
+            if(block_pointers[i] != NULL){
+                delete [] block_pointers[i];
+                block_pointers[i] = NULL;
+            }
+        }
         first_bp = last_bp = NULL;
         front_ptr = back_ptr = NULL;
-        
-        // Note: The array of block pointers should not be deleted;
-        //       However, all of its entries are NULL because all the
-        //       data blocks have been deleted.
     }
     
     
@@ -339,12 +337,15 @@ namespace coen79_lab8
         {
             assert(bp_array_size > 1);
             size_t bp_mid = floor(bp_array_size/2); // Get the mid point of the array of block pointers
-            
+           
             // Both last_bp and first_bp point to
             // the same location of the array of block pointers
             last_bp = first_bp = block_pointers + bp_mid - 1;
             
-            // STUDENT WORK...
+            *first_bp = last_bp = new value_type [block_size];
+            
+            first_bp[0] = entry;
+            front_ptr = back_ptr = first_bp[0];
         }
         
         // There is at least one empty slot before the entry that
@@ -423,19 +424,21 @@ namespace coen79_lab8
         // This is the only entry in the deque; remove it and delete the data block
         if (back_ptr == front_ptr)
         {
-            // STUDENT WORK...
+            clear();
 
         }
         // This is the last entry of the data block; move to the next block
         else if (front_ptr == ((*first_bp) + block_size - 1))
         {
-            // STUDENT WORK...
-
+            delete[] front_ptr;
+            first_bp = NULL;
+            first_bp = block_pointers[*first_bp+1];
+            front_ptr = first_bp;
         }
         // Simply move the pointer
         else
         {
-            // STUDENT WORK...
+            ++front_ptr;
 
         }
     }
@@ -452,8 +455,10 @@ namespace coen79_lab8
         }
         else if (back_ptr == *last_bp)
         {
-            // STUDENT WORK...
-
+            delete[] back_ptr;
+            *last_bp = NULL;
+            --last_bp;
+            back_ptr = *last_bp + block_size - 1;
         }
         else
         {
