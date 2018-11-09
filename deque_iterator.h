@@ -98,12 +98,16 @@ namespace coen79_lab8
             // Move to the next data block
             if (cursor == current_boundary)
             {
+                current_block_pointer++;
+                cursor = *current_block_pointer;
+                current_boundary = *current_block_pointer + (block_size-1);
                 // STUDENT WORK...
 
             }
             // Move forward
             else
             {
+                ++cursor;
                 // STUDENT WORK...
 
             }
@@ -133,12 +137,17 @@ namespace coen79_lab8
             // Move to the next data block
             if (cursor == current_boundary)
             {
+                current_block_pointer++;
+                cursor = *current_block_pointer;
+                current_boundary = *current_block_pointer + (block_size-1);
+                
                 // STUDENT WORK...
 
             }
             // Move forward
             else
             {
+                ++cursor;
                 // STUDENT WORK...
 
             }
